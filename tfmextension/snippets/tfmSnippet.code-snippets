@@ -1,0 +1,41 @@
+{
+    "get sintax resources": {
+        "scope": "javascript,typescript",
+        "prefix": "tfmResources",
+        "body": [
+            "this._resourcesService.get($2);"
+        ],
+        "description": "comman sintax resources"
+    },
+   "get sintax getModelService":{
+    "scope": "javascript,typescript",
+       "prefix":"tfmGetModelService",
+       "body":[
+           " public getModel(): $1 {",
+            "return this._model;}"
+       ]
+   },
+    "get sintax setTaskActions": {
+       "scope": "javascript,typescript",
+       "prefix": "tfmtaskActions",
+       "body": [
+           "let taskActions = {",
+               "primary: [",
+                   "{",
+                       "id: 'cancel',",
+                       "order: 0,",
+                       "text: this._resourcesService.get('TFM.COMMON.BTN.CANCEL'),",
+                       "click: () => { // call to method}",
+                   "},",
+                   "{",
+                       "id: 'save',",
+                       "order: 1,",
+                       "text: this._resourcesService.get('TFM.COMMON.BTN.SAVE'),",
+                       "click: () => { // call to method}",
+                   "}",
+               "]",
+           "} as ITaskActionBar;"
+       ],
+       "description": "comman sintax to create a toolbar actions"
+   }
+}
