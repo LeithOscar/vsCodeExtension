@@ -134,5 +134,32 @@
     ""
       ],
     "description": "comman sintax to create a default Modal auxiliar Component"
-    }
+    },
+    "template to create a test file": {
+        "prefix": "initTest",
+        "scope": "javascript,typescript",
+        "body": [
+          "import { ${2:componentName}Component } from \"./${2:componentName}.component\";",
+          "",
+          "describe('${2:componentName} component tests',function(){",
+          "",
+          "    let component: ${2:componentName}Component = null;",
+          "",
+          "",
+          "    beforeEach(() => {",
+          "       ",
+          "        component = new ${2:componentName}Component();",
+          "",
+          "    });",
+          "",
+          "    describe('onInit method', function(){",
+          "",
+          "",
+          "",
+          "    });",
+          "",
+          "});"
+        ],
+        "description": "template to create a test file"
+      }
 }
