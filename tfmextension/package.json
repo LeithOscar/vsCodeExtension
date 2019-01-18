@@ -1,8 +1,9 @@
 {
     "name": "tfmextension",
+    "publisher":"leithOscar",
     "displayName": "tfmExtension",
     "description": "easy way to share code",
-    "version": "0.0.1",
+    "version": "1.1.0",
     "engines": {
         "vscode": "^1.29.0"
     },

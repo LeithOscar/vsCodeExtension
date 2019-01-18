@@ -39,6 +39,10 @@ Users appreciate release notes as you update your extension.
 
 Add Snippet config
 
+### 1.1.0
+
+Add Snippet Html
+
 -----------------------------------------------------------------------------------------------------------
 
 ## Author
