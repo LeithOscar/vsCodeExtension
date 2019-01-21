@@ -49,7 +49,7 @@ add new snippet with prefix htmlModalAuxiliar - scope: html
 
 ## Author
 
-Leith Oscar - leithoscarjarayseh.wordpress.com
+Leith Oscar  - leithoscarjarayseh.wordpress.com
 
 ### For more information
 
