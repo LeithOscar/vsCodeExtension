@@ -1,4 +1,4 @@
-# tfmextension README
+# TFM Extension
 
 ## Requirements
 
