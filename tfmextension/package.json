@@ -5,7 +5,7 @@
     "description": "easy way to share code",
     "version": "1.1.0",
     "engines": {
-        "vscode": "^1.29.0"
+        "vscode": "^1.0.0"
     },
     "categories": [
         "Other"
