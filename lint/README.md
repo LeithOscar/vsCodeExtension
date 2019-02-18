@@ -1,11 +1,8 @@
 # lint README
 
-This is the README for your extension "lint".
-
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
 ## Extension Settings
 
@@ -25,7 +22,6 @@ Users appreciate release notes as you update your extension.
 ### 1.0.0
 
 Create initial extension
-
 
 -----------------------------------------------------------------------------------------------------------
 
