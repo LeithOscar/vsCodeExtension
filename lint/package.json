@@ -2,7 +2,7 @@
 	"name": "lint",
 	"displayName": "lint",
 	"description": "code review",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"publisher": "leithOscar",
 	"engines": {
 		"vscode": "^1.31.0"
