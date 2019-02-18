@@ -3,6 +3,7 @@
 	"displayName": "lint",
 	"description": "code review",
 	"version": "0.0.1",
+	"publisher": "leithOscar",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
