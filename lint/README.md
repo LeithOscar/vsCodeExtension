@@ -17,11 +17,13 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Create initial extension
+**Create initial extension**
+inlcude review:
+* Check double quotes. "" -> ''
+* Check import camel case after slash '/Xx'
+* Check comments //something todo
 
 -----------------------------------------------------------------------------------------------------------
 
@@ -35,6 +37,6 @@ Create initial extension
 
 ### For more information
 
-* [autor](https://leithoscarjarayseh.wordpress.com/)
+* [About me](https://leithoscarjarayseh.wordpress.com/)
 
 **Enjoy!**

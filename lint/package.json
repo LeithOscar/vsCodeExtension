@@ -4,6 +4,7 @@
 	"description": "code review",
 	"version": "1.0.0",
 	"publisher": "leithOscar",
+	"icon": "images/logo.png",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
