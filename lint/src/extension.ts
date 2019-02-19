@@ -20,7 +20,7 @@ console.log('Congratulations, your extension "checksintax lint" is now active!')
         let textEditor= vscode.window.activeTextEditor;
         // The code you place here will be executed every time your command is executed
         // Display a message box to th user
-        vscode.window.showInformationMessage('I try to check it >>>>>');
+        vscode.window.showInformationMessage('lint stared...');
         let codeLines = textEditor.document.lineCount;
 
         for (let index = 1; index <= codeLines; index++) {
@@ -28,9 +28,7 @@ console.log('Congratulations, your extension "checksintax lint" is now active!')
             doubleQuotesRule(textEditor, index);
             importRule(textEditor, index);
             commentRule(textEditor, index);
-        }
-        vscode.window.showInformationMessage('end CheckIt >>>>>');
-        
+        }        
     });
 
     context.subscriptions.push(disposable);
@@ -46,7 +44,7 @@ export function doubleQuotesRule(textEditor: vscode.TextEditor, index: number):v
     
     if(dbC && dbC.length >=1 && dbC.length <= 1)
     {
-        vscode.window.showErrorMessage('There are double quotes: ' + (index +1) );
+        vscode.window.showErrorMessage('There are double quotes');
     }    
 }
 export function importRule(textEditor: vscode.TextEditor, index: number):void
@@ -57,17 +55,17 @@ export function importRule(textEditor: vscode.TextEditor, index: number):void
     
     if(dbC && dbC.length >=1 && dbC.length <= 1)
     {
-        vscode.window.showErrorMessage("There are UpperWord on imports: " + (index +1) );
+        vscode.window.showErrorMessage('There are UpperWord on imports');
     }    
 }
 export function commentRule(textEditor: vscode.TextEditor, index: number):void
 {
-    let regexImport =  new RegExp('/\\*(?:.|[\\n\\r])*?\\*/');
+    let regexImport =  new RegExp('/*[a-z]*/');
     let line = textEditor.document.lineAt(index-1).text;
     let dbC = line.match(regexImport)
     
     if(dbC && dbC.length >=1 && dbC.length <= 1)
     {
-        vscode.window.showErrorMessage('There are comments on your code: ' + (index +1) );
+        vscode.window.showErrorMessage('There are comments on your code');
     }    
 }

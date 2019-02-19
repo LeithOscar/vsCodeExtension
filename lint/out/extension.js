@@ -16,14 +16,13 @@ function activate(context) {
         let textEditor = vscode.window.activeTextEditor;
         // The code you place here will be executed every time your command is executed
         // Display a message box to th user
-        vscode.window.showInformationMessage('I try to check it >>>>>');
+        vscode.window.showInformationMessage('lint stared...');
         let codeLines = textEditor.document.lineCount;
         for (let index = 1; index <= codeLines; index++) {
             doubleQuotesRule(textEditor, index);
             importRule(textEditor, index);
             commentRule(textEditor, index);
         }
-        vscode.window.showInformationMessage('end CheckIt >>>>>');
     });
     context.subscriptions.push(disposable);
 }
@@ -35,7 +34,7 @@ function doubleQuotesRule(textEditor, index) {
     let line = textEditor.document.lineAt(index - 1).text;
     let dbC = line.match('"');
     if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        vscode.window.showErrorMessage('There are double quotes: ' + (index + 1));
+        vscode.window.showErrorMessage('There are double quotes');
     }
 }
 exports.doubleQuotesRule = doubleQuotesRule;
@@ -44,16 +43,16 @@ function importRule(textEditor, index) {
     let line = textEditor.document.lineAt(index - 1).text;
     let dbC = line.match(regexImport);
     if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        vscode.window.showErrorMessage("There are UpperWord on imports: " + (index + 1));
+        vscode.window.showErrorMessage('There are UpperWord on imports');
     }
 }
 exports.importRule = importRule;
 function commentRule(textEditor, index) {
-    let regexImport = new RegExp('/\\*(?:.|[\\n\\r])*?\\*/');
+    let regexImport = new RegExp('/*[a-z]*/');
     let line = textEditor.document.lineAt(index - 1).text;
     let dbC = line.match(regexImport);
     if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        vscode.window.showErrorMessage('There are comments on your code: ' + (index + 1));
+        vscode.window.showErrorMessage('There are comments on your code');
     }
 }
 exports.commentRule = commentRule;
