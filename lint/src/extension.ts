@@ -1,7 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { debug } from 'util';
+let errors : Array<string>=[];
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -14,6 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
     let disposable = vscode.commands.registerCommand('extension.lint', () => {
+      
 
         let textEditor = vscode.window.activeTextEditor;
         // The code you place here will be executed every time your command is executed
@@ -30,7 +32,18 @@ export function activate(context: vscode.ExtensionContext) {
             //commentRule(textEditor, index);
             privatePropertiesRule(textEditor, index);
         }
-        vscode.window.showInformationMessage('end review')
+
+        if(errors.length ===0)
+        {
+            vscode.window.showInformationMessage('succeed');
+        }
+        else{
+            errors.forEach((err)=>{
+                vscode.window.showErrorMessage(err);
+            });
+        }
+
+       
     });
 
     context.subscriptions.push(disposable);
@@ -45,7 +58,8 @@ export function doubleQuotesRule(textEditor: vscode.TextEditor, index: number): 
     let dbC = line.match('"')
 
     if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        vscode.window.showErrorMessage('There are double quotes');
+        
+        addErrorMessage('There are double quotes');
     }
 }
 export function importRule(textEditor: vscode.TextEditor, index: number): void {
@@ -56,11 +70,11 @@ export function importRule(textEditor: vscode.TextEditor, index: number): void {
     let dbC2 = line.match(srcInternalRule)
 
     if (dbC1 && dbC1.length >= 1 && dbC1.length <= 1) {
-        vscode.window.showErrorMessage('There are UpperWord on imports');
+        addErrorMessage('There are UpperWord on imports');
     }
     
     if (dbC2 && dbC2.length >= 1 && dbC2.length <= 1) {
-        vscode.window.showErrorMessage('There are src/internal in imports');
+        addErrorMessage('There are src/internal in imports');
     }
 }
 export function commentRule(textEditor: vscode.TextEditor, index: number): void {
@@ -69,13 +83,13 @@ export function commentRule(textEditor: vscode.TextEditor, index: number): void 
     let dbC = line.match(regexImport)
 
     if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        vscode.window.showErrorMessage('There are comments on your code');
+        addErrorMessage('There are comments on your code');
     }
 }
 export function privatePropertiesRule(textEditor: vscode.TextEditor, index: number): void {
     let rule1 = new RegExp('private [a-zA-Z]');
     let rule2 = new RegExp('private _[A-Z]');
-    let rule3 = new RegExp('private [a-z]()');
+    let rule3 = new RegExp('[()]');
     let line = textEditor.document.lineAt(index - 1).text;
     let underScoreRule = line.match(rule1);
     let mayusRule = line.match(rule2)
@@ -83,10 +97,15 @@ export function privatePropertiesRule(textEditor: vscode.TextEditor, index: numb
 
     if (!isMethodRule && ( mayusRule || underScoreRule)) {
         if (underScoreRule && underScoreRule.length >= 1 && underScoreRule.length <= 1) {
-            vscode.window.showErrorMessage('Property that does not start underscore');
+
+            addErrorMessage('Property that does not start underscore');
         }
         if (mayusRule && mayusRule.length >= 1 && mayusRule.length <= 1) {
-            vscode.window.showErrorMessage('Property names start with a capital');
+           addErrorMessage('Property names start with a capital');
         }
     }
+}
+
+export function addErrorMessage(error:string){
+    errors.push(error);
 }

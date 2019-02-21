@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
+let errors = [];
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -25,7 +26,14 @@ function activate(context) {
             //commentRule(textEditor, index);
             privatePropertiesRule(textEditor, index);
         }
-        vscode.window.showInformationMessage('end review');
+        if (errors.length === 0) {
+            vscode.window.showInformationMessage('succeed');
+        }
+        else {
+            errors.forEach((err) => {
+                vscode.window.showErrorMessage(err);
+            });
+        }
     });
     context.subscriptions.push(disposable);
 }
@@ -37,7 +45,7 @@ function doubleQuotesRule(textEditor, index) {
     let line = textEditor.document.lineAt(index - 1).text;
     let dbC = line.match('"');
     if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        vscode.window.showErrorMessage('There are double quotes');
+        addErrorMessage('There are double quotes');
     }
 }
 exports.doubleQuotesRule = doubleQuotesRule;
@@ -48,10 +56,10 @@ function importRule(textEditor, index) {
     let dbC1 = line.match(mayusRule);
     let dbC2 = line.match(srcInternalRule);
     if (dbC1 && dbC1.length >= 1 && dbC1.length <= 1) {
-        vscode.window.showErrorMessage('There are UpperWord on imports');
+        addErrorMessage('There are UpperWord on imports');
     }
     if (dbC2 && dbC2.length >= 1 && dbC2.length <= 1) {
-        vscode.window.showErrorMessage('There are src/internal in imports');
+        addErrorMessage('There are src/internal in imports');
     }
 }
 exports.importRule = importRule;
@@ -60,26 +68,30 @@ function commentRule(textEditor, index) {
     let line = textEditor.document.lineAt(index - 1).text;
     let dbC = line.match(regexImport);
     if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        vscode.window.showErrorMessage('There are comments on your code');
+        addErrorMessage('There are comments on your code');
     }
 }
 exports.commentRule = commentRule;
 function privatePropertiesRule(textEditor, index) {
     let rule1 = new RegExp('private [a-zA-Z]');
     let rule2 = new RegExp('private _[A-Z]');
-    let rule3 = new RegExp('private [a-z]()');
+    let rule3 = new RegExp('[()]');
     let line = textEditor.document.lineAt(index - 1).text;
     let underScoreRule = line.match(rule1);
     let mayusRule = line.match(rule2);
     let isMethodRule = line.match(rule3);
     if (!isMethodRule && (mayusRule || underScoreRule)) {
         if (underScoreRule && underScoreRule.length >= 1 && underScoreRule.length <= 1) {
-            vscode.window.showErrorMessage('Property that does not start underscore');
+            addErrorMessage('Property that does not start underscore');
         }
         if (mayusRule && mayusRule.length >= 1 && mayusRule.length <= 1) {
-            vscode.window.showErrorMessage('Property names start with a capital');
+            addErrorMessage('Property names start with a capital');
         }
     }
 }
 exports.privatePropertiesRule = privatePropertiesRule;
+function addErrorMessage(error) {
+    errors.push(error);
+}
+exports.addErrorMessage = addErrorMessage;
 //# sourceMappingURL=extension.js.map
