@@ -11,12 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "checksintax lint" is now active!');
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
     let disposable = vscode.commands.registerCommand('extension.lint', () => {
-      
-
         let textEditor = vscode.window.activeTextEditor;
         // The code you place here will be executed every time your command is executed
         // Display a message box to th user
@@ -33,19 +28,8 @@ export function activate(context: vscode.ExtensionContext) {
             privatePropertiesRule(textEditor, index);
         }
 
-        if(errors.length ===0)
-        {
-            vscode.window.showInformationMessage('succeed');
-        }
-        else{
-            errors.forEach((err)=>{
-                vscode.window.showErrorMessage(err);
-            });
-        }
-
-       
+        showErrors();
     });
-
     context.subscriptions.push(disposable);
 }
 
@@ -108,4 +92,17 @@ export function privatePropertiesRule(textEditor: vscode.TextEditor, index: numb
 
 export function addErrorMessage(error:string){
     errors.push(error);
+}
+
+export function showErrors()
+{
+    if(errors.length ===0)
+    {
+        vscode.window.showInformationMessage('succeed');
+    }
+    else{
+        errors.forEach((err)=>{
+            vscode.window.showErrorMessage(err);
+        });
+    }
 }
