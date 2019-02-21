@@ -2,7 +2,7 @@
 	"name": "lint",
 	"displayName": "lint",
 	"description": "code review",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"publisher": "leithOscar",
 	"icon": "images/logo.png",
 	"engines": {

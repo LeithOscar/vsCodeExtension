@@ -25,6 +25,10 @@ inlcude review:
 * Check import camel case after slash '/Xx'
 * Check comments //something todo
 
+### 2.0.0
+new rules:
+* Check then name of the private property that does not start underscore
+* Check the name of the private property that does not start with a capital
 -----------------------------------------------------------------------------------------------------------
 
 ## Working with Markdown

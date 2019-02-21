@@ -16,13 +16,16 @@ function activate(context) {
         let textEditor = vscode.window.activeTextEditor;
         // The code you place here will be executed every time your command is executed
         // Display a message box to th user
-        vscode.window.showInformationMessage('lint stared...');
+        vscode.window.showInformationMessage('lint review stared...');
+        vscode.DiagnosticRelatedInformation;
         let codeLines = textEditor.document.lineCount;
         for (let index = 1; index <= codeLines; index++) {
             doubleQuotesRule(textEditor, index);
             importRule(textEditor, index);
             commentRule(textEditor, index);
+            privatePropertiesRule(textEditor, index);
         }
+        vscode.window.showInformationMessage('end review');
     });
     context.subscriptions.push(disposable);
 }
@@ -56,4 +59,18 @@ function commentRule(textEditor, index) {
     }
 }
 exports.commentRule = commentRule;
+function privatePropertiesRule(textEditor, index) {
+    let rule1 = new RegExp('private *[a-z]');
+    let rule2 = new RegExp('private *[A-Z]');
+    let line = textEditor.document.lineAt(index - 1).text;
+    let dbC1 = line.match(rule1);
+    let dbC2 = line.match(rule2);
+    if (dbC1 && dbC1.length >= 1 && dbC1.length <= 1) {
+        vscode.window.showErrorMessage('Property that does not start underscore');
+    }
+    if (dbC2 && dbC2.length >= 1 && dbC2.length <= 1) {
+        vscode.window.showErrorMessage('Property names start with a capital');
+    }
+}
+exports.privatePropertiesRule = privatePropertiesRule;
 //# sourceMappingURL=extension.js.map
