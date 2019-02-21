@@ -22,7 +22,7 @@ function activate(context) {
         for (let index = 1; index <= codeLines; index++) {
             doubleQuotesRule(textEditor, index);
             importRule(textEditor, index);
-            commentRule(textEditor, index);
+            //commentRule(textEditor, index);
             privatePropertiesRule(textEditor, index);
         }
         vscode.window.showInformationMessage('end review');
@@ -42,11 +42,16 @@ function doubleQuotesRule(textEditor, index) {
 }
 exports.doubleQuotesRule = doubleQuotesRule;
 function importRule(textEditor, index) {
-    let regexImport = new RegExp("/[A-Z]");
+    let mayusRule = new RegExp("/[A-Z]");
+    let srcInternalRule = new RegExp("/src/internal/");
     let line = textEditor.document.lineAt(index - 1).text;
-    let dbC = line.match(regexImport);
-    if (dbC && dbC.length >= 1 && dbC.length <= 1) {
+    let dbC1 = line.match(mayusRule);
+    let dbC2 = line.match(srcInternalRule);
+    if (dbC1 && dbC1.length >= 1 && dbC1.length <= 1) {
         vscode.window.showErrorMessage('There are UpperWord on imports');
+    }
+    if (dbC2 && dbC2.length >= 1 && dbC2.length <= 1) {
+        vscode.window.showErrorMessage('There are src/internal in imports');
     }
 }
 exports.importRule = importRule;
@@ -60,16 +65,20 @@ function commentRule(textEditor, index) {
 }
 exports.commentRule = commentRule;
 function privatePropertiesRule(textEditor, index) {
-    let rule1 = new RegExp('private *[a-z]');
-    let rule2 = new RegExp('private *[A-Z]');
+    let rule1 = new RegExp('private [a-zA-Z]');
+    let rule2 = new RegExp('private _[A-Z]');
+    let rule3 = new RegExp('private [a-z]()');
     let line = textEditor.document.lineAt(index - 1).text;
-    let dbC1 = line.match(rule1);
-    let dbC2 = line.match(rule2);
-    if (dbC1 && dbC1.length >= 1 && dbC1.length <= 1) {
-        vscode.window.showErrorMessage('Property that does not start underscore');
-    }
-    if (dbC2 && dbC2.length >= 1 && dbC2.length <= 1) {
-        vscode.window.showErrorMessage('Property names start with a capital');
+    let underScoreRule = line.match(rule1);
+    let mayusRule = line.match(rule2);
+    let isMethodRule = line.match(rule3);
+    if (!isMethodRule && (mayusRule || underScoreRule)) {
+        if (underScoreRule && underScoreRule.length >= 1 && underScoreRule.length <= 1) {
+            vscode.window.showErrorMessage('Property that does not start underscore');
+        }
+        if (mayusRule && mayusRule.length >= 1 && mayusRule.length <= 1) {
+            vscode.window.showErrorMessage('Property names start with a capital');
+        }
     }
 }
 exports.privatePropertiesRule = privatePropertiesRule;
