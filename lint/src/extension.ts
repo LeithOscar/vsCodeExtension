@@ -17,18 +17,14 @@ export function activate(context: vscode.ExtensionContext) {
         // The code you place here will be executed every time your command is executed
         // Display a message box to th user
         vscode.window.showInformationMessage('lint review stared...');
-        vscode.DiagnosticRelatedInformation
 
         let codeLines = textEditor.document.lineCount;
-
         for (let index = 1; index <= codeLines; index++) {
-
             rules.doubleQuotesRule(index);
             rules.importRule(index);
             //rules.commentRule(index);
             rules.privatePropertiesRule(index);
         }
-
         rules.showErrors();
     });
     context.subscriptions.push(disposable);
