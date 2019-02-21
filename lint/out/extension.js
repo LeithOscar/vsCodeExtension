@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
-let errors = [];
+const rules_1 = require("./rules");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -12,18 +12,19 @@ function activate(context) {
     console.log('Congratulations, your extension "checksintax lint" is now active!');
     let disposable = vscode.commands.registerCommand('extension.lint', () => {
         let textEditor = vscode.window.activeTextEditor;
+        let rules = new rules_1.Rules(textEditor);
         // The code you place here will be executed every time your command is executed
         // Display a message box to th user
         vscode.window.showInformationMessage('lint review stared...');
         vscode.DiagnosticRelatedInformation;
         let codeLines = textEditor.document.lineCount;
         for (let index = 1; index <= codeLines; index++) {
-            doubleQuotesRule(textEditor, index);
-            importRule(textEditor, index);
-            //commentRule(textEditor, index);
-            privatePropertiesRule(textEditor, index);
+            rules.doubleQuotesRule(index);
+            rules.importRule(index);
+            //rules.commentRule(index);
+            rules.privatePropertiesRule(index);
         }
-        showErrors();
+        rules.showErrors();
     });
     context.subscriptions.push(disposable);
 }
@@ -31,68 +32,4 @@ exports.activate = activate;
 // this method is called when your extension is deactivated
 function deactivate() { }
 exports.deactivate = deactivate;
-function doubleQuotesRule(textEditor, index) {
-    let line = textEditor.document.lineAt(index - 1).text;
-    let dbC = line.match('"');
-    if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        addErrorMessage('There are double quotes');
-    }
-}
-exports.doubleQuotesRule = doubleQuotesRule;
-function importRule(textEditor, index) {
-    let mayusRule = new RegExp("/[A-Z]");
-    let srcInternalRule = new RegExp("/src/internal/");
-    let line = textEditor.document.lineAt(index - 1).text;
-    let dbC1 = line.match(mayusRule);
-    let dbC2 = line.match(srcInternalRule);
-    if (dbC1 && dbC1.length >= 1 && dbC1.length <= 1) {
-        addErrorMessage('There are UpperWord on imports');
-    }
-    if (dbC2 && dbC2.length >= 1 && dbC2.length <= 1) {
-        addErrorMessage('There are src/internal in imports');
-    }
-}
-exports.importRule = importRule;
-function commentRule(textEditor, index) {
-    let regexImport = new RegExp('/*[a-z]*/');
-    let line = textEditor.document.lineAt(index - 1).text;
-    let dbC = line.match(regexImport);
-    if (dbC && dbC.length >= 1 && dbC.length <= 1) {
-        addErrorMessage('There are comments on your code');
-    }
-}
-exports.commentRule = commentRule;
-function privatePropertiesRule(textEditor, index) {
-    let rule1 = new RegExp('private [a-zA-Z]');
-    let rule2 = new RegExp('private _[A-Z]');
-    let rule3 = new RegExp('[()]');
-    let line = textEditor.document.lineAt(index - 1).text;
-    let underScoreRule = line.match(rule1);
-    let mayusRule = line.match(rule2);
-    let isMethodRule = line.match(rule3);
-    if (!isMethodRule && (mayusRule || underScoreRule)) {
-        if (underScoreRule && underScoreRule.length >= 1 && underScoreRule.length <= 1) {
-            addErrorMessage('Property that does not start underscore');
-        }
-        if (mayusRule && mayusRule.length >= 1 && mayusRule.length <= 1) {
-            addErrorMessage('Property names start with a capital');
-        }
-    }
-}
-exports.privatePropertiesRule = privatePropertiesRule;
-function addErrorMessage(error) {
-    errors.push(error);
-}
-exports.addErrorMessage = addErrorMessage;
-function showErrors() {
-    if (errors.length === 0) {
-        vscode.window.showInformationMessage('succeed');
-    }
-    else {
-        errors.forEach((err) => {
-            vscode.window.showErrorMessage(err);
-        });
-    }
-}
-exports.showErrors = showErrors;
 //# sourceMappingURL=extension.js.map
