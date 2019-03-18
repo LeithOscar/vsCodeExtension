@@ -209,5 +209,22 @@
                 "</div>"
           ],
           "description": "template to create a test file"
+        },
+        "html_WkeColumns": {
+          "prefix": "Html_TwoColumn",
+          "scope": "html",
+          "body": [
+            "<div class=\"rowAvailable verticalLayout\">",
+            "        <div class=\"rowAuto horizontalLayout\">",
+            "            <div class=\"colAvailable boxField\">",
+            "               <!--Element-->",
+            "            </div>",
+            "            <div class=\"colAvailable boxField\">",
+            "                <!--Element-->",
+            "            </div>",
+            "       </div>",
+            "</div>"
+          ],
+          "description": "html_WkeColumns"
         }
 }
